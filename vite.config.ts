@@ -96,6 +96,7 @@ function devApiPlugin(): Plugin {
 
 export default defineConfig(() => {
   return {
+    base: './',
     plugins: [react(), tailwindcss(), devApiPlugin()],
     resolve: {
       alias: {
