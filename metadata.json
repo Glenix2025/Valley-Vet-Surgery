@@ -1,0 +1,6 @@
+{
+  "name": "Valley Veterinary Surgery Assistant",
+  "description": "AI-powered client assistant for Valley Veterinary Surgery across Mackay, Walkerston, and Marian.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
