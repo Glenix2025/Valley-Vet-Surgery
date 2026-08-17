@@ -28,6 +28,7 @@ import {
   isEmergencyQuery,
   getLocalFallbackResponse,
 } from '../data/valleyVetData';
+import { ValleyVetLogo } from './ValleyVetLogo';
 
 export interface ChatMessage {
   id: string;
@@ -352,12 +353,22 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
       {/* Main Frosted Glass Chat Card */}
       <div className="flex-1 bg-white/60 backdrop-blur-xl rounded-3xl border border-white/40 shadow-2xl shadow-emerald-900/5 flex flex-col overflow-hidden min-h-[480px]">
         {/* Chat Inner Header */}
-        <div className="bg-[#2d5a47]/5 px-5 sm:px-6 py-3 border-b border-white/40 flex justify-between items-center">
-          <div className="flex items-center gap-2.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold text-[#2d5a47]">Valley Vet Assistant</span>
-              <span className="text-[11px] text-[#5a7d6e] font-medium hidden sm:inline">• Active Now</span>
+        <div className="bg-[#2d5a47]/5 px-4 sm:px-6 py-2.5 border-b border-white/40 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <ValleyVetLogo className="w-10 h-8 sm:w-11 sm:h-8.5 rounded-xl shadow-2xs border-emerald-900/10" variant="bubble" />
+              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-bold text-[#2d5a47]">Valley Vet Assistant</span>
+                <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.2 rounded-full hidden sm:inline">
+                  Verified FAQs
+                </span>
+              </div>
+              <span className="text-[11px] text-[#5a7d6e] font-medium block leading-none">
+                Mackay • Walkerston • Marian Clinics
+              </span>
             </div>
           </div>
 
@@ -389,62 +400,76 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
             return (
               <div
                 key={msg.id}
-                className={`flex flex-col ${isAssistant ? 'items-start' : 'items-end'}`}
+                className={`flex gap-2.5 sm:gap-3.5 ${isAssistant ? 'items-start' : 'items-start flex-row-reverse'}`}
               >
-                {/* Message bubble */}
-                <div
-                  className={`max-w-[85%] sm:max-w-[80%] leading-relaxed ${
-                    isAssistant
-                      ? msg.isEmergencyAlert
-                        ? 'bg-amber-50/90 rounded-2xl rounded-tl-none p-4 shadow-sm border border-amber-200 text-[#2c3e50]'
-                        : 'bg-white rounded-2xl rounded-tl-none p-4 shadow-sm border border-emerald-100/80 text-[#2c3e50]'
-                      : 'bg-[#2d5a47] text-white rounded-2xl rounded-tr-none p-4 shadow-md'
-                  }`}
-                >
-                  <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.text}</p>
+                {/* Avatar Bubble */}
+                {isAssistant ? (
+                  <div className="flex-shrink-0 mt-0.5">
+                    <ValleyVetLogo className="w-8 h-6.5 sm:w-9 sm:h-7.5 rounded-xl shadow-xs border-emerald-900/10" variant="bubble" />
+                  </div>
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-[#2d5a47] text-white flex items-center justify-center flex-shrink-0 text-xs shadow-xs font-bold mt-0.5">
+                    <User className="w-4 h-4" />
+                  </div>
+                )}
 
-                  {isAssistant && renderMessageActions(msg.text)}
-                </div>
+                {/* Message Content Container */}
+                <div className={`flex flex-col max-w-[85%] sm:max-w-[80%] ${isAssistant ? 'items-start' : 'items-end'}`}>
+                  {/* Message bubble */}
+                  <div
+                    className={`w-full leading-relaxed ${
+                      isAssistant
+                        ? msg.isEmergencyAlert
+                          ? 'bg-amber-50/90 rounded-2xl rounded-tl-none p-4 shadow-sm border border-amber-200 text-[#2c3e50]'
+                          : 'bg-white rounded-2xl rounded-tl-none p-4 shadow-sm border border-emerald-100/80 text-[#2c3e50]'
+                        : 'bg-[#2d5a47] text-white rounded-2xl rounded-tr-none p-4 shadow-md'
+                    }`}
+                  >
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.text}</p>
 
-                {/* Subtitle / Timestamp */}
-                <div className={`flex items-center gap-2 text-[10px] text-gray-400 mt-1 ${isAssistant ? 'ml-1' : 'mr-1'}`}>
-                  <span>{isAssistant ? 'Valley Vet Assistant' : 'You'}</span>
-                  <span>•</span>
-                  <span>
-                    {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </span>
+                    {isAssistant && renderMessageActions(msg.text)}
+                  </div>
 
-                  {isAssistant && (
-                    <div className="flex items-center gap-1 ml-1 opacity-70 hover:opacity-100">
-                      <button
-                        onClick={() => handleCopy(msg.id, msg.text)}
-                        className="hover:text-[#2d5a47] p-0.5 rounded transition-colors"
-                        title="Copy message"
-                      >
-                        {copiedMessageId === msg.id ? (
-                          <Check className="w-3 h-3 text-emerald-600" />
-                        ) : (
-                          <Copy className="w-3 h-3" />
-                        )}
-                      </button>
+                  {/* Subtitle / Timestamp */}
+                  <div className={`flex items-center gap-2 text-[10px] text-gray-400 mt-1 ${isAssistant ? 'ml-1' : 'mr-1'}`}>
+                    <span>{isAssistant ? 'Valley Vet Assistant' : 'You'}</span>
+                    <span>•</span>
+                    <span>
+                      {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
 
-                      {'speechSynthesis' in window && (
+                    {isAssistant && (
+                      <div className="flex items-center gap-1 ml-1 opacity-70 hover:opacity-100">
                         <button
-                          onClick={() => handleSpeak(msg.id, msg.text)}
-                          className={`hover:text-[#2d5a47] p-0.5 rounded transition-colors ${
-                            speakingId === msg.id ? 'text-emerald-700 animate-pulse' : ''
-                          }`}
-                          title={speakingId === msg.id ? 'Stop reading' : 'Read aloud'}
+                          onClick={() => handleCopy(msg.id, msg.text)}
+                          className="hover:text-[#2d5a47] p-0.5 rounded transition-colors"
+                          title="Copy message"
                         >
-                          {speakingId === msg.id ? (
-                            <VolumeX className="w-3 h-3" />
+                          {copiedMessageId === msg.id ? (
+                            <Check className="w-3 h-3 text-emerald-600" />
                           ) : (
-                            <Volume2 className="w-3 h-3" />
+                            <Copy className="w-3 h-3" />
                           )}
                         </button>
-                      )}
-                    </div>
-                  )}
+
+                        {'speechSynthesis' in window && (
+                          <button
+                            onClick={() => handleSpeak(msg.id, msg.text)}
+                            className={`hover:text-[#2d5a47] p-0.5 rounded transition-colors ${
+                              speakingId === msg.id ? 'text-emerald-700 animate-pulse' : ''
+                            }`}
+                            title={speakingId === msg.id ? 'Stop reading' : 'Read aloud'}
+                          >
+                            {speakingId === msg.id ? (
+                              <VolumeX className="w-3 h-3" />
+                            ) : (
+                              <Volume2 className="w-3 h-3" />
+                            )}
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             );
@@ -452,18 +477,23 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 
           {/* Loading Indicator */}
           {isLoading && (
-            <div className="flex flex-col items-start">
-              <div className="bg-white rounded-2xl rounded-tl-none p-4 shadow-sm border border-emerald-100/80 max-w-[80%]">
-                <div className="flex items-center gap-2 text-xs text-[#5a7d6e] font-medium">
-                  <div className="flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-[#2d5a47] rounded-full animate-bounce"></span>
-                    <span className="w-1.5 h-1.5 bg-[#2d5a47] rounded-full animate-bounce [animation-delay:0.2s]"></span>
-                    <span className="w-1.5 h-1.5 bg-[#2d5a47] rounded-full animate-bounce [animation-delay:0.4s]"></span>
-                  </div>
-                  <span>Consulting clinic knowledge base...</span>
-                </div>
+            <div className="flex gap-2.5 sm:gap-3.5 items-start">
+              <div className="flex-shrink-0 mt-0.5">
+                <ValleyVetLogo className="w-8 h-6.5 sm:w-9 sm:h-7.5 rounded-xl shadow-xs border-emerald-900/10" variant="bubble" />
               </div>
-              <span className="text-[10px] text-gray-400 mt-1 ml-1">Valley Vet Assistant • Typing...</span>
+              <div className="flex flex-col items-start">
+                <div className="bg-white rounded-2xl rounded-tl-none p-4 shadow-sm border border-emerald-100/80 max-w-[80%]">
+                  <div className="flex items-center gap-2 text-xs text-[#5a7d6e] font-medium">
+                    <div className="flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 bg-[#2d5a47] rounded-full animate-bounce"></span>
+                      <span className="w-1.5 h-1.5 bg-[#2d5a47] rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                      <span className="w-1.5 h-1.5 bg-[#2d5a47] rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                    </div>
+                    <span>Consulting clinic knowledge base...</span>
+                  </div>
+                </div>
+                <span className="text-[10px] text-gray-400 mt-1 ml-1">Valley Vet Assistant • Typing...</span>
+              </div>
             </div>
           )}
 

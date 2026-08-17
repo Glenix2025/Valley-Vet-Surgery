@@ -1,6 +1,7 @@
 import React from 'react';
 import { Phone, ExternalLink, Calendar, ShieldAlert, Clock, MapPin, Sparkles, HelpCircle, Mail, Image as ImageIcon } from 'lucide-react';
 import { CLINIC_LOCATIONS, CLINIC_LINKS } from '../data/valleyVetData';
+import { ValleyVetLogo } from './ValleyVetLogo';
 
 interface HeaderProps {
   onOpenClinics: () => void;
@@ -51,25 +52,16 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={onOpenLogoModal}
               title="Click to customize or view clinic logo"
-              className="group relative flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[#2d5a47]/40 rounded-2xl overflow-hidden"
+              className="group relative flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[#2d5a47]/40 rounded-2xl overflow-hidden shadow-xs hover:scale-105 transition-transform"
             >
               {customLogoUrl ? (
                 <img
                   src={customLogoUrl}
                   alt="Valley Veterinary Surgery Logo"
-                  className="w-11 h-11 sm:w-13 sm:h-13 object-contain rounded-2xl bg-white/80 p-1 border border-white/60 shadow-xs"
+                  className="w-14 h-11 sm:w-16 sm:h-12 object-contain rounded-2xl bg-white p-1 border border-white/80 shadow-xs"
                 />
               ) : (
-                <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-[#2d5a47] text-white flex items-center justify-center shadow-md shadow-[#2d5a47]/20 group-hover:scale-105 transition-transform border border-white/30">
-                  <div className="text-center">
-                    <span className="font-display font-extrabold text-lg sm:text-xl tracking-tighter text-emerald-200 block leading-none">
-                      VVS
-                    </span>
-                    <span className="text-[8px] font-semibold uppercase tracking-wider text-emerald-300">
-                      VETS
-                    </span>
-                  </div>
-                </div>
+                <ValleyVetLogo className="w-14 h-11 sm:w-16 sm:h-12 border-emerald-900/10" variant="bubble" />
               )}
               <div className="absolute inset-0 bg-black/40 text-white text-[9px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl font-medium">
                 Logo

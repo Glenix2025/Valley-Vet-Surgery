@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { X, Upload, Check, Trash2, Image as ImageIcon, ShieldCheck } from 'lucide-react';
+import { ValleyVetLogo } from './ValleyVetLogo';
 
 interface LogoUploadModalProps {
   isOpen: boolean;
@@ -100,11 +101,9 @@ export const LogoUploadModal: React.FC<LogoUploadModalProps> = ({
                 </div>
               </div>
             ) : (
-              <div className="space-y-2 py-2">
-                <div className="w-16 h-16 rounded-2xl bg-[#2d5a47] text-emerald-200 flex items-center justify-center mx-auto shadow-md shadow-[#2d5a47]/20 font-display font-bold text-xl border border-white/40">
-                  VVS
-                </div>
-                <p className="text-xs text-[#5a7d6e] font-semibold">Default Branded Crest</p>
+              <div className="space-y-2 py-2 flex flex-col items-center">
+                <ValleyVetLogo className="w-32 h-20 shadow-md border-emerald-900/15" variant="full" />
+                <p className="text-xs text-[#5a7d6e] font-bold">Default Valley Vet Clinic Logo</p>
               </div>
             )}
           </div>
